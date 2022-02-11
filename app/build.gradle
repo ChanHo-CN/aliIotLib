@@ -13,6 +13,12 @@ android {
         versionName "1.0"
     }
 
+    sourceSets {
+        main {
+            jniLibs.srcDir 'libs'
+        }
+    }
+    
     buildTypes {
         release {
             minifyEnabled false
@@ -27,15 +33,4 @@ android {
 
 dependencies {
     api fileTree(dir: "libs", include: ["*.jar", "*.aar"])
-}
-
-
-publish {
-    repoName = 'aliiotlib'
-    userOrg = 'alipay'
-    groupId = 'com.jingxitech.alipayiotlib'
-    artifactId = 'aliiotlib'
-    version = '1.0.0'
-    description = 'The Alipay Iot Public library.'
-    website = 'https://opendocs.alipay.com/iot/021txh'
 }
