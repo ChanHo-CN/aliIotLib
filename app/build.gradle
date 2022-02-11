@@ -1,0 +1,41 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdk 30
+
+    defaultConfig {
+        applicationId "com.jingxitech.alipayiotlib"
+        minSdk 21
+        targetSdk 30
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    api fileTree(dir: "libs", include: ["*.jar", "*.aar"])
+}
+
+
+publish {
+    repoName = 'aliiotlib'
+    userOrg = 'alipay'
+    groupId = 'com.jingxitech.alipayiotlib'
+    artifactId = 'aliiotlib'
+    version = '1.0.0'
+    description = 'The Alipay Iot Public library.'
+    website = 'https://opendocs.alipay.com/iot/021txh'
+}
