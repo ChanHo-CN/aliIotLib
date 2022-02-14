@@ -34,3 +34,41 @@ android {
 dependencies {
     api fileTree(dir: "libs", include: ["*.jar", "*.aar"])
 }
+
+
+
+android.libraryVariants.all { variant ->
+    def name = variant.buildType.name
+    if (name.equals(com.android.builder.core.BuilderConstants.DEBUG)) {
+        return; // Skip debug builds.
+    }
+    def task = project.tasks.create "jar${name.capitalize()}", Jar
+    task.dependsOn variant.javaCompile
+    task.from variant.javaCompile.destinationDir
+    artifacts.add('archives', task);
+}
+
+android.libraryVariants.all { variant ->
+    task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
+        title = "ExoPlayer library"
+        description "Generates Javadoc for $variant.name."
+        source = variant.javaCompile.source
+        classpath = files(variant.javaCompile.classpath.files, project.android.getBootClasspath())
+        options {
+            links "http://docs.oracle.com/javase/7/docs/api/"
+            linksOffline "https://developer.android.com/reference","${android.sdkDirectory}/docs/reference"
+        }
+        exclude '**/BuildConfig.java'
+        exclude '**/R.java'
+    }
+}
+
+publish {
+    repoName = 'aliIotLib'
+    userOrg = 'alipay'
+    groupId = 'com.jingxitech.alipayiotlib'
+    artifactId = 'aliIotLib'
+    version = '1.0.0'
+    description = 'The AliIot library.'
+    website = 'https://alipay.com'
+}
